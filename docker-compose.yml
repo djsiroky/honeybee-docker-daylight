@@ -1,11 +1,11 @@
-version: '2.2'
+version: '2.0'
 services:
 
     hbflask:
         image: ladybugtools/hbserver
         command: "python app.py"
         ports:
-            - '5000:5000'
+            - '80:5000'
         links:
             - redis
             - celery

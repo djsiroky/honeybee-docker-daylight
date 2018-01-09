@@ -2,14 +2,20 @@ FROM python:2.7
 
 # create honeybee folder
 WORKDIR /usr/local/hb_docker
+RUN chown $USER:$USER /usr/local/hb_docker
+RUN chmod -R +wxr /usr/local/hb_docker
 
 # install python dependencies
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
 # copy radiance libraries
-COPY ./radiance/bin /usr/local/bin
-COPY ./radiance/lib /usr/local/lib/ray
+RUN mkdir -p /usr/local/radiance
+COPY ./radiance/bin /usr/local/radiance/bin
+COPY ./radiance/lib /usr/local/radiance/lib/ray
+RUN chown $USER:$USER /usr/local/radiance
+RUN chmod -R +wxr /usr/local/radiance
+ENV RAYPATH=/usr/local/radiance/lib/ray
 
 # create jobs folder as place holder
 COPY ./jobs /jobs
